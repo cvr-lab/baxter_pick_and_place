@@ -1,0 +1,19 @@
+<launch>
+    <!-- Run joint trajectory action server node (required for MoveIt!) -->
+    <node pkg="baxter_interface" type="joint_trajectory_action_server.py" name="trajectory_node" >
+    </node>
+    <!-- Run launch file that runs MoveIt! and opens a Rviz window to visualize baxter and planning scene. Moreover remap the joint state topic to get feedback from the joints. -->
+    <include file="$(find baxter_moveit_config)/launch/demo_baxter.launch"/>    
+      <remap from="joint_states" to="robot/joint_states"/> 
+    <!-- Open baxter's left hand camera and set the required resolution -->
+    <node pkg="baxter_tools" type="camera_control.py" name="open_left_camera" output="screen"  args="-o left_hand_camera -r 1280x800" />
+    <!-- Open baxter's right hand camera and set the required resolution -->
+    <node pkg="baxter_tools" type="camera_control.py" name="open_right_camera" output="screen"  args="-o right_hand_camera -r 1280x800" />
+
+    <!-- Run the baxter_img node to get data from baxter's left hand camera -->
+	<node pkg="baxter_pnp_both_arms_alternately" type="baxter_img_left" name="img_left" output="screen"/>
+    <!-- Run the baxter_img node to get data from baxter's right hand camera -->
+	<node pkg="baxter_pnp_both_arms_alternately" type="baxter_img_right" name="img_right" output="screen"/>
+    <!-- Run the baxter_pnp node to initiate pick and place operation of objects -->
+	<node pkg="baxter_pnp_both_arms_alternately" type="baxter_pnp.py" name="pnp" output="screen" />
+</launch>

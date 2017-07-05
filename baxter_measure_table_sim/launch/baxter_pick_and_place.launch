@@ -1,0 +1,17 @@
+<launch>
+
+  <node name="joint_trajectory_action_server" pkg="baxter_interface" type="joint_trajectory_action_server.py" respawn="true" output="screen">
+  </node>
+  
+  <include file="$(find baxter_moveit_config)/launch/baxter_grippers.launch"/>
+      <remap from="joint_states" to="robot/joint_states"/> 
+
+  <node name="move_group_server" pkg="zhen_baxter_moveit" type="move_group_server" respawn="true" output="screen">
+  </node>
+  
+  <node name="move_group_explore_server" pkg="zhen_baxter_moveit" type="move_group_explore_server" respawn="true" output="screen">
+  </node>
+  
+  <node pkg="baxter_measure_table_sim" type="measure_table.py" name="measure_table" output="screen"/>
+
+</launch>
