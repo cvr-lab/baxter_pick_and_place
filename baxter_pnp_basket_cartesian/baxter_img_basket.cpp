@@ -121,8 +121,8 @@ void ImageCallBack(const sensor_msgs::Image &msg)
     points.poses.push_back(pose);
   }
   // src_result is the image with the lined circle around the basket.
-  cvShowImage("detected basket", src_result);
-  cvSaveImage("/home/maik/Schreibtisch/save/detected basket.jpg", src_result);
+  //cvShowImage("detected basket", src_result);
+  //cvSaveImage("/home/maik/Schreibtisch/save/detected basket.jpg", src_result);
   pos_pub.publish(points);
 }
 

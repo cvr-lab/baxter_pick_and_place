@@ -86,6 +86,7 @@ def move(arm, *arg):
     # be added.
     fraction = 0
     attempts=0
+    error= 0
     waypoints = []
     set_current_position(arm, waypoints)
     # i is the number of waypoints.
@@ -125,12 +126,17 @@ def move(arm, *arg):
         # Waiting up to 3 seconds that the goal position is reached or it will compute a normal path.
 	# It is also required to check that the movement is finished because it continues directly
         # after the command right_arm.execute() with the next code lines.
-        while not((abs(z_pos-goal_z)< 0.01) and (abs(y_pos-goal_y)< 0.01) and (abs(x_pos-goal_x)< 0.01)):
+        while not((abs(z_pos-goal_z)< 0.01) and (abs(y_pos-goal_y)< 0.01) and (abs(x_pos-goal_x)< 0.01) or error):
             a=right_arm.get_current_pose()
 	    x_pos= a.pose.position.x
 	    y_pos= a.pose.position.y
 	    z_pos= a.pose.position.z          
             time.sleep(0.5)
+            b=rightarm.endpoint_effort()
+            z_= b['force']
+	    z_force= z_.z
+	    if z_force<-4:  
+                error= 1  
             if(attempts>6):
                 print("----->cartesian path failed!<-----")       
                 right_arm.set_pose_target(goal)
@@ -275,7 +281,7 @@ def picknplace():
         p.clear()
         # Add table as attached object.
         p.attachBox('table', table_size_x, table_size_y, table_size_z, center_x, center_y, center_z, 'base', touch_links=['pedestal'])
-    	p.attachBox('basket', 0.05, 0.05, 0.16,locs_x[0], locs_y[0], center_z_basket, 'base')
+    	#p.attachBox('basket', 0.05, 0.05, 0.16,locs_x[0], locs_y[0], center_z_basket, 'base')
         p.waitForSync()
         # Move the right arm next to the table to make more space for the
         # left arm. 
@@ -344,7 +350,9 @@ def picknplace():
     while locs_x or start:
         # Only for the start.
 	if start:
-            start = 0		
+            start = 0	
+
+        time.sleep(0.5)	
         # Receive the data from all objects from the topic "detected_objects".
         temp = rospy.wait_for_message("detected_objects", PoseArray) 
         locs = temp.poses 
@@ -391,9 +399,9 @@ def picknplace():
 	    if thn > pi/4:
 	        thn = -1*(thn%(pi/4))
 	    # Add the detected objects into the planning scene.
-	    for i in range(1,len(locs_x)):
-	        p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x[i], locs_y[i], center_z_cube)  
-	    p.waitForSync()
+	    #for i in range(1,len(locs_x)):
+	        #p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x[i], locs_y[i], center_z_cube)  
+	    #p.waitForSync()
             # Initialize the approach pickgoal (5 cm to pickgoal).
             approach_pickgoal = geometry_msgs.msg.Pose()
             approach_pickgoal.position.x = xn
@@ -451,10 +459,10 @@ def picknplace():
                 # Move with the basket under the gripper with the object.
                 picked_object=set_current_position("right")
 		picked_object.position.z = 0
-		picked_object.orientation.x = 0.413749341502#0.334360832507
-		picked_object.orientation.y = 0.567214149555#0.660214964821
-		picked_object.orientation.z = -0.5091760982#-0.352475264948
-		picked_object.orientation.w = 0.497814515597#0.572782874667
+		picked_object.orientation.x = 0.334360832507 #0.413749341502#
+		picked_object.orientation.y = 0.660214964821 #0.567214149555#
+		picked_object.orientation.z = -0.352475264948 #-0.5091760982#
+		picked_object.orientation.w = 0.572782874667 #0.497814515597#
                 move("left", picked_object)
                 rightgripper.open()
                 while(rightgripper.force()>10):

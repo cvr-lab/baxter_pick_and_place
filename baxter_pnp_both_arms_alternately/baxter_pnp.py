@@ -215,13 +215,15 @@ def picknplace():
             # Add table as attached object.
             p.attachBox('table', table_size_x, table_size_y, table_size_z, center_x, center_y, center_z, 'base', touch_links=['pedestal'])
 	    # Add the detected objects into the planning scene.
-	    for i in range(1,len(locs_x_left)):
-	        p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x_left[i], locs_y_left[i], center_z_cube)
-	    for i in range(1,len(locs_x_right)):
-	        p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x_right[i], locs_y_right[i], center_z_cube)
+	    #for i in range(1,len(locs_x_left)):
+	        #p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x_left[i], locs_y_left[i], center_z_cube)
+	    #for i in range(1,len(locs_x_right)):
+	        #p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x_right[i], locs_y_right[i], center_z_cube)
 	    # Add the stacked objects as collision objects into the planning scene to avoid moving against them.
-	    for e in range(0, k):
-	        p.attachBox(boxlist[e], 0.05, 0.05, 0.0275, placegoal.position.x, placegoal.position.y, center_z_cube+0.0275*(e-1), 'base', touch_links=['cubes'])   
+	    #for e in range(0, k):
+	        #p.attachBox(boxlist[e], 0.05, 0.05, 0.0275, placegoal.position.x, placegoal.position.y, center_z_cube+0.0275*(e-1), 'base', touch_links=['cubes'])  
+            if k>0:
+	        p.attachBox(boxlist[0], 0.07, 0.07, 0.0275*k, placegoal.position.x, placegoal.position.y, center_z_cube, 'base', touch_links=['cubes'])   
 	    p.waitForSync()
             if left_ready==0 and locs_x_left:
                 # Initialize the approach pickgoal left (5 cm to pickgoal).
@@ -376,7 +378,7 @@ def picknplace():
                     left_arm.go(wait=True)
                     # Define the placegoal.
                     placegoal.position.z = -0.14+(k*0.0275)
-                    placegoal.position.x = 0.55
+                    placegoal.position.x = 0.54
                     left_arm.set_pose_target(placegoal)
                     left_arm.plan()
                     left_arm.go(wait=True) 

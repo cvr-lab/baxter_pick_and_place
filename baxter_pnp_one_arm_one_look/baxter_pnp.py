@@ -184,11 +184,13 @@ def picknplace():
             # Add table as attached object.
             p.attachBox('table', table_size_x, table_size_y, table_size_z, center_x, center_y, center_z, 'base', touch_links=['pedestal'])
 	    # Add the detected objects into the planning scene.
-	    for i in range(1,len(locs_x)):
-	        p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x[i], locs_y[i], center_z_cube)   
+	    #for i in range(1,len(locs_x)):
+	        #p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x[i], locs_y[i], center_z_cube)   
 	    # Add the stacked objects as collision objects into the planning scene to avoid moving against them.
-	    for e in range(0, old_k+k):
-	        p.attachBox(boxlist[e], 0.07, 0.07, 0.0275, placegoal.position.x, placegoal.position.y, center_z_cube+0.0275*(e-1), 'base', touch_links=['cubes'])   
+	    #for e in range(0, old_k+k):
+	        #p.attachBox(boxlist[e], 0.07, 0.07, 0.0275, placegoal.position.x, placegoal.position.y, center_z_cube+0.0275*(e-1), 'base', touch_links=['cubes'])   
+            if k>0:
+	        p.attachBox(boxlist[0], 0.07, 0.07, 0.0275*k, placegoal.position.x, placegoal.position.y, center_z_cube, 'base', touch_links=['cubes']) 
 	    p.waitForSync()
             # Initialize the approach pickgoal (5 cm to pickgoal).
             approach_pickgoal = geometry_msgs.msg.Pose()
@@ -274,7 +276,10 @@ def picknplace():
         if u!=k:
             start=1
         print "\nBaxter picked", (old_k+k),"objects of a total of",(old_k+len(locs_x)),"succesful\n!"
-            
+
+    right_arm.set_pose_target(rpos)
+    right_arm.plan()
+    right_arm.go(wait=True)
     pr.disable()
     sortby = 'cumulative'
     ps=pstats.Stats(pr).sort_stats(sortby).print_stats(0.0)

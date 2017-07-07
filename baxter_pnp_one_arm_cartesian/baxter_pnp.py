@@ -84,7 +84,8 @@ def move(arm, *arg):
     # path it will try to find a normal path. This function is limited to 3 points but more can 
     # be added.
     fraction = 0
-    attempts=0
+    attempts= 0
+    error= 0
     waypoints = []
     set_current_position(arm, waypoints)
     # i is the number of waypoints.
@@ -124,14 +125,19 @@ def move(arm, *arg):
         # Waiting up to 3 seconds that the goal position is reached or it will compute a normal path.
 	# It is also required to check that the movement is finished because it continues directly
         # after the command right_arm.execute() with the next code lines.
-        while not((abs(z_pos-goal_z)< 0.01) and (abs(y_pos-goal_y)< 0.01) and (abs(x_pos-goal_x)< 0.01)):
+        while not((abs(z_pos-goal_z)< 0.01) and (abs(y_pos-goal_y)< 0.01) and (abs(x_pos-goal_x)< 0.01) or error):
             a=right_arm.get_current_pose()
 	    x_pos= a.pose.position.x
 	    y_pos= a.pose.position.y
 	    z_pos= a.pose.position.z          
             time.sleep(0.5)
+            b=rightarm.endpoint_effort()
+            z_= b['force']
+	    z_force= z_.z
+	    if z_force<-4:  
+                error= 1  
             if(attempts>6):
-                print("----->cartesian path failed!<-----")       
+                print("----->cartesian path failed!<-----")
                 right_arm.set_pose_target(goal)
                 right_arm.plan()
                 # The right arm move to the goal position and it continues after it finished.
@@ -148,15 +154,19 @@ def move(arm, *arg):
 	y_pos= a.pose.position.y
 	z_pos= a.pose.position.z
 
-        while not((abs(z_pos-goal_z)< 0.01) and (abs(y_pos-goal_y)< 0.01) and (abs(x_pos-goal_x)< 0.01)):
+        while not((abs(z_pos-goal_z)< 0.01) and (abs(y_pos-goal_y)< 0.01) and (abs(x_pos-goal_x)< 0.01) or error):
             a=left_arm.get_current_pose()
 	    x_pos= a.pose.position.x
 	    y_pos= a.pose.position.y
 	    z_pos= a.pose.position.z
             time.sleep(0.5)
-
+            b=leftarm.endpoint_effort()
+            z_= b['force']
+	    z_force= z_.z
+	    if z_force<-4:  
+                error= 1  
             if(attempts>6):
-                print("----->cartesian path failed!<-----")       
+                print("----->cartesian path failed!<-----")    
                 left_arm.set_pose_target(goal)
                 left_arm.plan()
                 left_arm.go(wait=True)
@@ -288,11 +298,13 @@ def picknplace():
 	        thn = -1*(thn%(pi/4))
 
 	    # Add the detected objects into the planning scene.
-	    for i in range(1,len(locs_x)):
-	        p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x[i], locs_y[i], center_z_cube)
+	    #for i in range(1,len(locs_x)):
+	        #p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x[i], locs_y[i], center_z_cube)
 	    # Add the stacked objects as collision objects into the planning scene to avoid moving against them.
-	    for e in range(0, k):
-	        p.attachBox(boxlist[e], 0.05, 0.05, 0.0275, placegoal.position.x, placegoal.position.y, center_z_cube+0.0275*(e-1), 'base', touch_links=['cubes'])    
+	    #for e in range(0, k):
+	        #p.attachBox(boxlist[e], 0.05, 0.05, 0.0275, placegoal.position.x, placegoal.position.y, center_z_cube+0.0275*(e-1), 'base', touch_links=['cubes'])    
+            if k>0:
+	        p.attachBox(boxlist[0], 0.07, 0.07, 0.0275*k, placegoal.position.x, placegoal.position.y, center_z_cube, 'base', touch_links=['cubes']) 
 	    p.waitForSync()
             # Initialize the approach pickgoal (5 cm to pickgoal).
             approach_pickgoal = geometry_msgs.msg.Pose()

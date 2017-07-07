@@ -147,11 +147,13 @@ def picknplace():
 	        thn = -1*(thn%(pi/4))
 
 	    # Add the detected objects into the planning scene.
-	    for i in range(1,len(locs_x)):
-	        p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x[i], locs_y[i], center_z_cube)
+	    #for i in range(1,len(locs_x)):
+	        #p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x[i], locs_y[i], center_z_cube)
 	    # Add the stacked objects as collision objects into the planning scene to avoid moving against them.
-	    for e in range(0, k):
-	        p.attachBox(boxlist[e], 0.05, 0.05, 0.0275, placegoal.pose.position.x, placegoal.pose.position.y, center_z_cube+0.0275*(e-1), 'base', touch_links=['cubes'])   
+	    #for e in range(0, k):
+	        #p.attachBox(boxlist[e], 0.05, 0.05, 0.0275, placegoal.pose.position.x, placegoal.pose.position.y, center_z_cube+0.0275*(e-1), 'base', touch_links=['cubes'])   
+            if k>0:
+	        p.attachBox(boxlist[0], 0.07, 0.07, 0.0275*k, placegoal.pose.position.x, placegoal.pose.position.y, center_z_cube, 'base', touch_links=['cubes']) 
 	    p.waitForSync()
             # Initialize the pickgoal.
 	    pickgoal = PoseStamped() 

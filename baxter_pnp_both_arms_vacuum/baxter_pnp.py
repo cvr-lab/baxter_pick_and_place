@@ -40,17 +40,17 @@ def picknplace():
     jts_both = ['left_e0', 'left_e1', 'left_s0', 'left_s1', 'left_w0', 'left_w1', 'left_w2', 'right_e0', 'right_e1', 'right_s0', 'right_s1', 'right_w0', 'right_w1', 'right_w2']
     jts_right = ['right_e0', 'right_e1', 'right_s0', 'right_s1', 'right_w0', 'right_w1', 'right_w2']
     jts_left = ['left_e0', 'left_e1', 'left_s0', 'left_s1', 'left_w0', 'left_w1', 'left_w2']
-    pos1 = [-1.441426162661994, 0.8389151064712133, 0.14240920034028015, -0.14501001475655606, -1.7630090377446503, -1.5706376573674472, 0.09225918246029519,1.7238109084167481, 1.7169079948791506, 0.36930587426147465, -0.33249033539428713, -1.2160632682067871, 1.668587600115967, -1.810097327636719]
+    pos1 = [-1.4580487388850858, 1.627553615946424, 0.07669903939427068, -0.3539660668045592, -1.9155585088719105, -1.4124128104454947, -0.6438884357149024,1.7238109084167481, 1.7169079948791506, 0.36930587426147465, -0.33249033539428713, -1.2160632682067871, 1.668587600115967, -1.810097327636719]
     pos2 = [-0.949534106616211, 1.4994662184448244, -0.6036214393432617, -0.7869321432861328, -2.4735440176391603, -1.212228316241455, -0.8690001153442384, 1.8342575250183106, 1.8668546167236328, -0.45674277907104494, -0.21667478604125978, -1.2712865765075685, 1.7472041154052735, -2.4582042097778323]
-    lpos1 = [-1.441426162661994, 0.8389151064712133, 0.14240920034028015, -0.14501001475655606, -1.7630090377446503, -1.5706376573674472, 0.09225918246029519]
+    lpos1 = [-1.4580487388850858, 1.627553615946424, 0.07669903939427068, -0.3539660668045592, -1.9155585088719105, -1.4124128104454947, -0.6438884357149024]
     lpos2 = [-0.949534106616211, 1.4994662184448244, -0.6036214393432617, -0.7869321432861328, -2.4735440176391603, -1.212228316241455, -0.8690001153442384]    
     rpos1 = [1.7238109084167481, 1.7169079948791506, 0.36930587426147465, -0.33249033539428713, -1.2160632682067871, 1.668587600115967, -1.810097327636719]
     rpos2 = [1.8342575250183106, 1.8668546167236328, -0.45674277907104494, -0.21667478604125978, -1.2712865765075685, 1.7472041154052735, -2.4582042097778323]
     placegoal = PoseStamped() 
     placegoal.header.frame_id = "base"
     placegoal.header.stamp = rospy.Time.now()
-    placegoal.pose.position.x = 0.6
-    placegoal.pose.position.y = 0.6
+    placegoal.pose.position.x = 0.55
+    placegoal.pose.position.y = 0.28
     placegoal.pose.position.z = 0
     placegoal.pose.orientation.x = 1.0
     placegoal.pose.orientation.y = 0.0
@@ -146,11 +146,13 @@ def picknplace():
 	        thn = -1*(thn%(pi/4))
 
 	    # Add the detected objects into the planning scene.
-	    for i in range(1,len(locs_x)):
-	        p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x[i], locs_y[i], center_z_cube)
+	    #for i in range(1,len(locs_x)):
+	        #p.addBox(objlist[i], 0.05, 0.05, 0.0275, locs_x[i], locs_y[i], center_z_cube)
 	    # Add the stacked objects as collision objects into the planning scene to avoid moving against them.
-	    for e in range(0, k):
-	        p.attachBox(boxlist[e], 0.05, 0.05, 0.0275, placegoal.pose.position.x, placegoal.pose.position.y, center_z_cube+0.0275*(e-1), 'base', touch_links=['cubes'])   
+	    #for e in range(0, k):
+	        #p.attachBox(boxlist[e], 0.05, 0.05, 0.0275, placegoal.pose.position.x, placegoal.pose.position.y, center_z_cube+0.0275*(e-1), 'base', touch_links=['cubes'])   
+            if k>0:
+	        p.attachBox(boxlist[0], 0.07, 0.07, 0.0275*k, placegoal.pose.position.x, placegoal.pose.position.y, center_z_cube, 'base', touch_links=['cubes'])  
 	    p.waitForSync()
             # Move both arms to the second position.
             g.moveToJointPosition(jts_both, pos2, max_velocity_scaling_factor = 1, plan_only=False)
