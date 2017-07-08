@@ -4,13 +4,13 @@ This repository presents various demonstrations of pick and place tasks with the
 
 ## Contents
 The packages include the following files:
-   * #### baxter_pnp.py ####<br />
+   * **baxter_pnp.py**<br />
    It includes the commands for the pick and place task and subscribe to the topic "detected objects" which contain the coordinates of the objects. The MoveGroupCommander and the PlanningSceneInterface are used for the movements. 
-   * #### baxter_img.cpp ####<br />
+   * **baxter_img.cpp**<br />
    The file is for the object detection with the Baxter hand camera. The tool OpenCV is used and the results are published to the topic "detected_objects".
-   * #### baxter_pick_and_place.launch ####<br />
+   * **baxter_pick_and_place.launch**<br />
    The launch file runs all the required nodes for the specific project.
-   * #### Folder with models for simulation ####<br />
+   * **Folder with models for simulation**<br />
    The projects for the simulation contain some models for the objects and the table which are from the Rethink Robotics example.
 
 ## Prerequisite
