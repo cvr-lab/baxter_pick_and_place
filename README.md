@@ -15,7 +15,7 @@ The packages include the following files:
 
 ## Prerequisite
 
-* ###Workstation Setup
+### * Workstation Setup
 The required steps to setup your workstation are described in the tutorial from rethink robotics®. This include the installation of Ubuntu, ROS, the Baxter SDK and the first connection to the robot. The direct connection from the Baxter to your workstation also requires a network connection from the type Ethernet.
 Example: Network Connection->Add->Ethernet
 Connection name: Baxter
@@ -23,12 +23,12 @@ IPv4 Settings: Method: Manual
 Address: 169.254.0.10, Netmask: 255.255.0.0, Gateway: 0.0.0.0
     <http://sdk.rethinkrobotics.com/wiki/Workstation_Setup>
     
-* ###MoveIt
+*###MoveIt
 MoveIt is used for the motion planning, manipulation and collision checking.
     <http://sdk.rethinkrobotics.com/wiki/MoveIt_Tutorial>
     Moreover the package moveit_python by Michael Ferguson need to be installed.
     
-* ###Gazebo (optional)
+### *Gazebo (optional)
 Gazebo is a powerful simulation tool for robots. It allows to use already existing robots like the Baxter or to create own one. It is very useful for people who have not the possibility to work with a physical robot.
     <http://sdk.rethinkrobotics.com/wiki/Using_Gazebo_and_Baxter>
     It is more comfortable to have a separate workspace for the physical robot and the visual one in the simulation. It is for example not necessary to change everytime the baxter.sh file. The tutorial from the github repository zengzhen explains the steps and it is a good way to get in touch with gazebo.
