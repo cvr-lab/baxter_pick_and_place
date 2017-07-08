@@ -34,7 +34,7 @@ Gazebo is a powerful simulation tool for robots. It allows to use already existi
     It is more comfortable to have a separate workspace for the physical robot and the visual one in the simulation. It is for example not necessary to change everytime the baxter.sh file. The tutorial from the github repository zengzhen explains the steps and it is a good way to get in touch with gazebo.
     <https://github.com/zengzhen/zhen_baxter_moveit>
     If MoveIt is already installed the packages must be copied from the workspace ros_ws in the src folder from ros_gazebo_master. But to use the simulation from this website don't modify the following line from baxter_world.launch.
-    <arg name="world_name" value="$(find baxter_gazebo)/worlds/baxter.world"/>
+    '<arg name="world_name" value="$(find baxter_gazebo)/worlds/baxter.world"/>'
     
 * ### Robot arm calibration ###
 The calibration of the arms is recommend to get precisely results. There are two different calibration routines which are very well described on the website from rethink robotics.
@@ -58,7 +58,17 @@ This command open a window with a stream of images from Baxter's right hand came
     $ python hsvThresholder.py frame0000.jpg
     
 * ### Camera calibration and other parameters ###
-The camera calibration is allways necessary because every camera is differemt. The parameters can be determined with the Camera Calibration Toolbox for Matlab. The website explains the calibration and optimization from a camera with a printed checkerboard. The first calibration example can be done with an example based on a total of 20 images to learn the process. Another option without the software Matlab is the tutorial Camera Calibration and 3D Reconstruction from OpenCV. The parameters must be changed in the baxter_img.cpp file which is in the package from the projects. Further changes which depends on the size of the detected objects can be found in the Readme.txt document from the projects.
+The camera calibration is allways necessary because every camera is differemt. The parameters can be determined with the Camera Calibration Toolbox for Matlab. The website explains the calibration and optimization from a camera with a printed checkerboard. The first calibration example can be done with an example based on a total of 20 images to learn the process. Another option without the software Matlab is the tutorial Camera Calibration and 3D Reconstruction from OpenCV. The parameters must be changed in the baxter_img.cpp file which is in the package from the projects. 
+
+At first I edit this arguments in the demo_baxter.launch to true. 
+
+ '<arg name="load_robot_description" default="true"/>'
+ '<arg name="right_electric_gripper" default="true"/>' 
+ '<arg name="left_electric_gripper" default="true"/>'
+
+Then can the grippers be changed in the files left_end_effector.urdf.xacro and right_end_effector.urdf.xacro.
+The possible settings for this files are explained at the website:
+<https://groups.google.com/a/rethinkrobotics.com/forum/#!topic/brr-users/u7D_F2RP1Xo>
 
 
 **Copyright (C) 2017 Maik Heufekes, 05/07/2017.**
