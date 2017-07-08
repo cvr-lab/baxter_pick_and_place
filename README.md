@@ -50,7 +50,8 @@ Then you can continue with the second program which find the size and the positi
 The object recognition can only work if the colors of the objects are known. The colors are defined in the baxter_img.cpp file as low and high hsv values. The example colored_papers.pdf include three different colors with the related hsv values. They can be printed and used for a first test to recognize them. Download the colored papers!
     But this arent the exactly values because it depends on the printer settings, the ink, the paper etc. The best way to get the color values from an object which should be detected is to take pictures with the Baxter camera from it on the workspace in different positions. This can be in the shadow from something or at a highly illuminated area. Moreover it is recommend to have every time all the used colors on every picture to see if only the one color will be detected with the specific hsv values.
 
-    $ rosrun image_view image_view image:=/cameras/right_hand_camera/image<br /><br />
+    $ rosrun image_view image_view image:=/cameras/right_hand_camera/image
+    
 This command open a window with a stream of images from Baxter's right hand camera and allows to save images by right-clicking on the display window.
     Then the images can be analyzed with the hsvThresholder.py file. Open a new terminal and execute the python file from the location where it is saved.
 
@@ -60,7 +61,7 @@ This command open a window with a stream of images from Baxter's right hand came
 The camera calibration is allways necessary because every camera is differemt. The parameters can be determined with the Camera Calibration Toolbox for Matlab. The website explains the calibration and optimization from a camera with a printed checkerboard. The first calibration example can be done with an example based on a total of 20 images to learn the process. Another option without the software Matlab is the tutorial Camera Calibration and 3D Reconstruction from OpenCV. The parameters must be changed in the baxter_img.cpp file which is in the package from the projects. Further changes which depends on the size of the detected objects can be found in the Readme.txt document from the projects.
 
 
-####Copyright (C) 2017 Maik Heufekes, 05/07/2017.
+**Copyright (C) 2017 Maik Heufekes, 05/07/2017.**
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License.
 
