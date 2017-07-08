@@ -3,14 +3,14 @@
 This repository presents various demonstrations of pick and place tasks with the Baxter research robot. It contains object recognition and manipulation with different focus areas such as various shapes, sizes, and colours. It also includes trajectory and motion planning and the use of different grippers with the physical robot and in the simulation with gazebo, too. The demonstrations, based upon a project from Abhishek Patil from the Northwestern University. Some additional information and videos are available at: <http://atcproyectos.ugr.es/cvrlab/baxter.html>
 
 ## Contents
-####The packages include the following files:
-   * ####baxter_pnp.py 
+The packages include the following files:
+   * **baxter_pnp.py**<br />
    It includes the commands for the pick and place task and subscribe to the topic "detected objects" which contain the coordinates of the objects. The MoveGroupCommander and the PlanningSceneInterface are used for the movements. 
-   * ####baxter_img.cpp
+   * **baxter_img.cpp**<br />
    The file is for the object detection with the Baxter hand camera. The tool OpenCV is used and the results are published to the topic "detected_objects".
-   * ####baxter_pick_and_place.launch
+   * **baxter_pick_and_place.launch**<br />
    The launch file runs all the required nodes for the specific project.
-   * ####Folder with models for simulation
+   * **Folder with models for simulation**<br />
    The projects for the simulation contain some models for the objects and the table which are from the Rethink Robotics example.
 
 ## Prerequisite
