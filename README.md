@@ -62,9 +62,9 @@ The camera calibration is allways necessary because every camera is differemt. T
 
 At first I edit this arguments in the demo_baxter.launch to true. 
 
- ```<arg name="load_robot_description" default="true"/>
-  <arg name="right_electric_gripper" default="true"/> 
-  <arg name="left_electric_gripper" default="true"/>```
+ ```<arg name="load_robot_description" default="true"/>```
+ ```<arg name="right_electric_gripper" default="true"/>``` 
+ ```<arg name="left_electric_gripper" default="true"/>```
 
 Then can the grippers be changed in the files left_end_effector.urdf.xacro and right_end_effector.urdf.xacro.
 The possible settings for this files are explained at the website:
