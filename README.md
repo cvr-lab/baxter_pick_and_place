@@ -58,14 +58,20 @@ This command open a window with a stream of images from Baxter's right hand came
     $ python hsvThresholder.py frame0000.jpg
     
 * ### Camera calibration and other parameters ###
-The camera calibration is allways necessary because every camera is differemt. The parameters can be determined with the Camera Calibration Toolbox for Matlab. The website explains the calibration and optimization from a camera with a printed checkerboard. The first calibration example can be done with an example based on a total of 20 images to learn the process. Another option without the software Matlab is the tutorial Camera Calibration and 3D Reconstruction from OpenCV. The parameters must be changed in the baxter_img.cpp file which is in the package from the projects. 
+The camera calibration is allways necessary because every camera is differemt. The parameters can be determined with the Camera Calibration Toolbox for Matlab. The website explains the calibration and optimization from a camera with a printed checkerboard. The first calibration example can be done with an example based on a total of 20 images to learn the process. Another option without the software Matlab is the tutorial Camera Calibration and 3D Reconstruction from OpenCV. The parameters must be changed in the baxter_img.cpp file which is in the package from the projects. The height from the camera to the object must be changed in function "Get3DPos" which is in the same file. (In the file 475 mm) <br />Moreover must be the offsets "0.07+0.57" and "0.032" checked. They are necessary to get the coordinates in the Baxter coordinate system. <br /> 
+    ```pose.position.x = rel_pos[i].x / 1000+0.07+0.57;```<br />
+    ```pose.position.y = rel_pos[i].y / 1000-0.032;```<br />
+One object can be placed on the table and the position can be measured with the gripper position.
+$ rostopic echo /robot/limb/left/endpoint_state/pose -n 1 
+$ rostopic echo detected_objects -n 1
+Then must be the detected position of this object compared with the real one. The differences are the offsets. Further changes for the size of the objects are explained in the comments of the code.
 
-At first I edit this arguments in the demo_baxter.launch to true. 
-
+<br /><br />
+**Change grippers**<br />
+At first I edit this arguments in the demo_baxter.launch to true.<br /> 
  ```<arg name="load_robot_description" default="true"/>```<br />
  ```<arg name="right_electric_gripper" default="true"/>```<br /> 
- ```<arg name="left_electric_gripper" default="true"/>```
-
+ ```<arg name="left_electric_gripper" default="true"/>```<br />
 Then can the grippers be changed in the files left_end_effector.urdf.xacro and right_end_effector.urdf.xacro.
 The possible settings for this files are explained at the website:
 <https://groups.google.com/a/rethinkrobotics.com/forum/#!topic/brr-users/u7D_F2RP1Xo>
