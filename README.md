@@ -65,7 +65,8 @@ One object can be placed on the table and the position can be measured with the 
 ```$ rostopic echo /robot/limb/left/endpoint_state/pose -n 1```<br /> 
 ```$ rostopic echo detected_objects -n 1```<br />
 Then must be the detected position of this object compared with the real one. The differences are the offsets. 
-The factors 0.015 and 0.058 correct the small deviations from the functions (int) rect.center.x- WIDTH / 2 and -((int) rect.center.y- HEIGHT / 2) which are used in the code.
+The factors 0.015 and 0.058 correct the small deviations from the functions<br />
+(int) rect.center.x- WIDTH / 2 and -((int) rect.center.y- HEIGHT / 2) which are used in the code.<br />
  ```float tempx = _Ma(0, 0, INVTRANS) * src->x + 0.015;```<br />
  ```float tempy = _Ma(1, 1, INVTRANS) * src->y + 0.058;```<br />
 The following example shows the equations for the camera resolution 1280x800.<br />
