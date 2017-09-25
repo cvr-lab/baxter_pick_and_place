@@ -13,7 +13,7 @@ The packages include the following files:
    * **Folder with models for simulation**<br />
    The projects for the simulation contain some models for the objects and the table which are from the Rethink Robotics example.
 
-## Prerequisite
+## Prerequisites
 
 * ### Workstation Setup ###
 The required steps to setup your workstation are described in the tutorial from Rethink Robotics. It includes the installation of Ubuntu, ROS, the Baxter SDK and the first connection to the robot. The direct connection from the Baxter to your workstation also requires a network connection from the type Ethernet.
